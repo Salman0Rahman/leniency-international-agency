@@ -127,6 +127,65 @@
                     </div>
                 </article>
 
+                <article class="lia-card">
+                    <!-- Optional skyline: add style="--lia-img:url(assets/images/hongkong-skyline.jpg)" to the next div -->
+                    <div class="lia-chead">
+                        <div class="lia-ico"><i class="fa-solid fa-globe"></i></div>
+                        <i class="lia-bar"></i>
+                        <div>
+                            <div class="lia-place">
+                                <i class="fa-solid fa-location-dot"></i>Sanyuanli, Guangzhou, China
+                            </div>
+                            <h3>Guangzhou Nasa Logistics Ltd</h3>
+                        </div>
+                    </div>
+                    <div class="lia-lic">
+                        <i class="fa-regular fa-id-card"></i> Unified Social Credit Code
+                        <b>91440104MAKDN1BG45</b>
+                    </div>
+                    <div class="lia-lic">
+                        <i class="fa-regular fa-id-card"></i> Registration Number
+                        <b>外S0412026009372G (2-2)</b>
+                    </div>
+                    <div class="lia-body">
+                        <div>
+                            <div class="lia-act-h">
+                                <h4>Business Activities</h4>
+                                <span class="lia-count">03 SERVICES</span>
+                            </div>
+                            <ul class="lia-acts">
+                                <li>
+                                    <i class="fa-solid fa-earth-asia"></i>
+                                    <span>Export &amp; Import<br /><small>(All categories except chemicals and
+                                            weapons)</small></span>
+                                </li>
+                                <li>
+                                    <i class="fa-solid fa-truck"></i> Logistics and Support
+                                </li>
+                                <li><i class="fa-solid fa-ship"></i> Cargo Services</li>
+                            </ul>
+                        </div>
+                        <div class="lia-div"></div>
+                        <div class="lia-cert">
+                            <div class="lia-cert-h">
+                                <i class="fa-regular fa-file-lines"></i>
+                                <div>
+                                    <b>Company Certificate</b><small>Official document</small>
+                                </div>
+                            </div>
+                            <div class="lia-frame">
+                                <span>Certificate picture</span>
+                                <img src="{{ asset('frontend/assets/images/Guangzhou-Nasa-Logistics-Ltd.jpeg') }}"
+                                    data-rotate="90" alt="Guangzhou Nasa Logistics certificate" loading="lazy"
+                                    onerror="this.remove()" />
+                            </div>
+                            <button type="button" class="lia-view">
+                                <i class="fa-solid fa-magnifying-glass"></i> View Certificate
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
                 <!-- Company 2 -->
                 <article class="lia-card">
                     <!-- Optional skyline: add style="--lia-img:url(assets/images/hongkong-skyline.jpg)" to the next div -->
@@ -135,7 +194,7 @@
                         <i class="lia-bar"></i>
                         <div>
                             <div class="lia-place">
-                                <i class="fa-solid fa-location-dot"></i> China &amp; Hong Kong
+                                <i class="fa-solid fa-location-dot"></i>Hong Kong
                             </div>
                             <h3>Nasa World Limited</h3>
                         </div>
@@ -218,6 +277,31 @@
         var root = document.querySelector(".lia-network");
         if (!root || root.getAttribute("data-lia-init")) return;
         root.setAttribute("data-lia-init", "1");
+
+
+        // Rotate images marked data-rotate (degrees, clockwise) so sideways scans show upright
+        root.querySelectorAll("img[data-rotate]").forEach(function (img) {
+        function rotate() {
+            if (img.dataset.done || !img.naturalWidth) return;
+            var deg = parseInt(img.dataset.rotate, 10) || 0;
+            var swap = deg % 180 !== 0;
+            var c = document.createElement("canvas");
+            c.width = swap ? img.naturalHeight : img.naturalWidth;
+            c.height = swap ? img.naturalWidth : img.naturalHeight;
+            var ctx = c.getContext("2d");
+            ctx.translate(c.width / 2, c.height / 2);
+            ctx.rotate((deg * Math.PI) / 180);
+            ctx.drawImage(img, -img.naturalWidth / 2, -img.naturalHeight / 2);
+            try {
+            img.dataset.done = "1";
+            img.src = c.toDataURL("image/jpeg", 0.92);
+            } catch (e) {}
+        }
+        if (img.complete) rotate();
+        else img.addEventListener("load", rotate);
+        });
+
+
         var dlg = root.querySelector(".lia-dialog");
         var body = root.querySelector(".lia-dialog-body");
 
@@ -248,4 +332,5 @@
         });
       })();
 </script>
+
 @endpush
